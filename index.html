@@ -23,16 +23,16 @@
         display: flex;
         align-items: center;
         margin-bottom: 50px;
-        padding: 10px;
+        padding: 10px 30px 50px 10px;
     }
     .search-container input[type="text"] {
         padding: 5px;
         font-size: 16px;
-        flex-grow: 1;
+        width: 250px;
     }
     .corner-image {
         position: absolute;
-        top: 0px;
+        top: 50px;
         right: 10px;
         width: 150px; /* Adjust the size as needed */
         height: 150px; /* Adjust the size as needed */
@@ -62,7 +62,7 @@
 </style>
 </head>
 <body>
-<h1>UC sections</h1>
+<h1 style="background-color:darkcyan;">UC sections</h1>
 <div class="search-container">
     <input type="text" id="searchInput" onkeyup="searchMember()" placeholder="Search by Section Designation...">
 </div>
