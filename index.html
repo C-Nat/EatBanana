@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Member Properties Search</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    .search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 50px;
+        padding: 10px;
+    }
+    .search-container input[type="text"] {
+        padding: 5px;
+        font-size: 16px;
+        flex-grow: 1;
+    }
+    .corner-image {
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        width: 150px; /* Adjust the size as needed */
+        height: 150px; /* Adjust the size as needed */
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+        margin-top: 20px;
+    }
+    @media (max-width: 600px) {
+        .search-container {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .corner-image {
+            width: 30px; /* Adjust the size for mobile */
+            height: 30px; /* Adjust the size for mobile */
+        }
+        th, td {
+            padding: 6px;
+        }
+        .search-container input[type="text"] {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+</style>
+</head>
+<body>
+<h1>UC sections</h1>
+<div class="search-container">
+    <input type="text" id="searchInput" onkeyup="searchMember()" placeholder="Search by Section Designation...">
+</div>
+
+<table id="memberTable">
+    <thead>
+        <tr>
+            <th>Section Designation</th>
+            <th>Mass per m</th>
+            <th>Depth h</th>
+            <th>Width b</th>
+            <th>Web Thickness tw</th>
+            <th>Flange Thickness tf</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<img src="https://i.imgur.com/4RA02st.jpg" alt="Typical UC Beam Section" class="corner-image">
+
+<script>
+function searchMember() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let rows = document.querySelectorAll('#memberTable tbody tr');
+
+    rows.forEach(row => {
+        let cells = row.querySelectorAll('td');
+        let found = false;
+
+        cells.forEach(cell => {
+            if (cell.textContent.toLowerCase().includes(input)) {
+                found = true;
+            }
+        });
+
+        if (found) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+// Fetch the CSV file and populate the table
+fetch('https://raw.githubusercontent.com/C-Nat/UC/refs/heads/main/UCtable.csv')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        let rows = data.split('\n');
+        let table = document.querySelector('#memberTable tbody');
+
+        for (let i = 1; i < rows.length; i++) {
+            let columns = rows[i].split(',');
+            if (columns.length >= 6) {
+                let newRow = document.createElement('tr');
+
+                columns.forEach(column => {
+                    let newCell = document.createElement('td');
+                    newCell.textContent = column;
+                    newRow.appendChild(newCell);
+                });
+
+                table.appendChild(newRow);
+            }
+        }
+    })
+    .catch(error => console.error('Error fetching or processing the CSV file:', error));
+</script>
+
+</body>
+</html>
