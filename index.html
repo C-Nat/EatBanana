@@ -108,7 +108,7 @@ function searchMember() {
 }
 
 // Fetch the CSV file and populate the table
-fetch('https://raw.githubusercontent.com/C-Nat/UC/refs/heads/main/UCtable.csv')
+fetch('https://raw.githubusercontent.com/C-Nat/UCMember/refs/heads/main/UCtable.csv')
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
