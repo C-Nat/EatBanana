@@ -9,10 +9,37 @@
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
+        background-color: #f4f4f4;
+    }
+    .navbar {
+        display: flex;
+        justify-content: center;
+        background-color: #333;
+        padding: 10px 0;
+    }
+    .navbar a {
+        color: white;
+        padding: 14px 20px;
+        text-decoration: none;
+        text-align: center;
+    }
+    .navbar a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+    .content {
+        padding: 20px;
+    }
+    .tab-content {
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
     }
     table {
         width: 100%;
         border-collapse: collapse;
+        margin-top: 20px;
     }
     th, td {
         border: 1px solid #ddd;
@@ -22,20 +49,21 @@
     .search-container {
         display: flex;
         align-items: center;
-        margin-bottom: 50px;
-        padding: 10px 30px 50px 10px;
+        margin-bottom: 20px;
     }
     .search-container input[type="text"] {
-        padding: 5px;
+        padding: 10px;
         font-size: 16px;
-        width: 250px;
+        width: 100%;
+        max-width: 300px;
+        margin-right: 10px;
     }
     .corner-image {
         position: absolute;
         top: 50px;
         right: 10px;
-        width: 150px; /* Adjust the size as needed */
-        height: 150px; /* Adjust the size as needed */
+        width: 150px;
+        height: 150px;
     }
     img {
         max-width: 100%;
@@ -48,8 +76,8 @@
             align-items: flex-start;
         }
         .corner-image {
-            width: 50px; /* Adjust the size for mobile */
-            height: 50px; /* Adjust the size for mobile */
+            width: 50px;
+            height: 50px;
         }
         th, td {
             padding: 6px;
@@ -59,32 +87,57 @@
             margin-bottom: 10px;
         }
     }
+    iframe {
+        width: 100%;
+        height: 600px; /* Adjust the height as needed */
+        border: none;
+    }
 </style>
 </head>
 <body>
-<h1 style="background-color:darkcyan;">UC sections</h1>
-<div class="search-container">
-    <input type="text" id="searchInput" onkeyup="searchMember()" placeholder="Search by Section Designation...">
+<div class="navbar">
+    <a href="#" onclick="showTab('ucSection')">UC Section</a>
+    <a href="#" onclick="showTab('aaaSection')">Monitoring AAA Level</a>
 </div>
 
-<table id="memberTable">
-    <thead>
-        <tr>
-            <th>Section Designation</th>
-            <th>Mass per m [kg/m]</th>
-            <th>Depth h [mm]</th>
-            <th>Width b [mm]</th>
-            <th>Web Thickness tw [mm]</th>
-            <th>Flange Thickness tf [mm]</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+<div class="content">
+    <div id="ucSection" class="tab-content active">
+        <h2>UC Sections</h2>
+        <div class="search-container">
+            <input type="text" id="searchInput" onkeyup="searchMember()" placeholder="Search by Section Designation...">
+        </div>
+        <table id="memberTable">
+            <thead>
+                <tr>
+                    <th>Section Designation</th>
+                    <th>Mass per m [kg/m]</th>
+                    <th>Depth h [mm]</th>
+                    <th>Width b [mm]</th>
+                    <th>Web Thickness tw [mm]</th>
+                    <th>Flange Thickness tf [mm]</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <img src="https://i.imgur.com/4RA02st.jpg" alt="Typical UC Beam Section" class="corner-image">
+    </div>
 
-<img src="https://i.imgur.com/4RA02st.jpg" alt="Typical UC Beam Section" class="corner-image">
+    <div id="aaaSection" class="tab-content">
+        <h2>Monitoring AAA Level</h2>
+        <iframe src="C:\Users\Natalie.Chan\OneDrive - Arup\01 Projects\Central Site 3\AAA.htm"></iframe>
+    </div>
+</div>
 
 <script>
+function showTab(tabId) {
+    let tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.getElementById(tabId).classList.add('active');
+}
+
 function searchMember() {
     let input = document.getElementById('searchInput').value.toLowerCase();
     let rows = document.querySelectorAll('#memberTable tbody tr');
